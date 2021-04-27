@@ -1,5 +1,4 @@
 #pragma once
-
 #include <Windows.h>
 
 #include <future>
@@ -9,6 +8,12 @@
 
 namespace jetbridge {
 
+enum CalculatorCodeResultType {
+  kFloat,    // double
+  kInteger,  // int
+  kString,   // char*
+};
+
 class Client {
  private:
   void* simconnect = 0;
@@ -16,8 +21,11 @@ class Client {
 
  public:
   Client(void* simconnect);
-  void handle_received_client_data_event(void* event);
-  Packet* request(char data[], int timeout = 1000);
+  void HandleReceivedClientDataEvent(void* event);
+  Packet* Request(char data[], int timeout = 1000);
+
+  void ExecuteCalculatorCode(std::string code);
+  void ExecuteCalculatorCode(std::string code, double* result);
 };
 
 }  // namespace jetbridge
